@@ -1,20 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 5500;
 
-// Middleware
+// Middleware to parse JSON bodies from incoming requests
 app.use(bodyParser.json());
+
+// Middleware to enable CORS for all origins
 app.use(cors());
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'frontend')));
-
-// Handle the form submission
+// Define the POST endpoint that the front-end form will submit to
 app.post('/api/submit-form', (req, res) => {
+    // The form data is available in req.body
     const { name, email, mobile, service, message } = req.body;
 
     console.log('Received new project request:');
@@ -24,12 +23,13 @@ app.post('/api/submit-form', (req, res) => {
     console.log(`- Service: ${service}`);
     console.log(`- Project Details: ${message}`);
 
-    res.status(200).json({ message: 'Request submitted successfully!', status: 'success' });
-});
+    // You can add your business logic here, such as:
+    // - Saving the data to a database
+    // - Sending an email notification
+    // - Validating the form fields
 
-// For any other routes, serve index.html (important for client-side routing)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+    // Send a success response back to the client
+    res.status(200).json({ message: 'Request submitted successfully!', status: 'success' });
 });
 
 // Start the server
