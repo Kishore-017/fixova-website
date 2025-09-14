@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const port = 5500;
+const port = process.env.PORT||5500;
 
 // Middleware to parse JSON bodies from incoming requests
 app.use(bodyParser.json());
@@ -35,4 +35,5 @@ app.post('/api/submit-form', (req, res) => {
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
+
 });
